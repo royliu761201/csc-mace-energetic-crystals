@@ -1,0 +1,17 @@
+Dear Editors,
+
+Please consider our manuscript, "Charge-self-consistent equivariant potentials for energetic molecular crystals: static gains and nonequilibrium limits," for publication as an Article in npj Computational Materials.
+
+This work asks when explicit self-consistent electrostatic response improves machine-learned interatomic potentials for molecular crystals, and where that improvement fails to transfer to nonequilibrium validation. We develop CSC-MACE, a charge-self-consistent extension of MACE in which one equivariant periodic-energy model drives both the short-range backbone and the diagonal charge-response parameters, and evaluate it across a benchmark ladder ending in a CL-20/HMX energetic-molecular-crystal target.
+
+On the final CL-20/HMX static multiseed benchmark, the self-consistent branch gives the strongest energy ranking, ahead of the static-charge approximation and the short-range baseline, while force MAE remains effectively tied across the three families. QEq diagnostics confirm that the electrostatic branches are active rather than numerically inert. Across key-bond survival, molecular integrity, nitro-focus, and adaptive-gating analyses, the current CL-20/HMX event hierarchy remains dominated by starting-frame sensitivity rather than by a reproducible model-family ordering, with frame-driven spread about eight times larger for the first integrity crossing and about one hundred eighty-four times larger for the first drift-threshold step in the focused final-target comparison.
+
+We believe this fits npj Computational Materials because the contribution is a materials-motivated analysis of how charge-aware equivariant models change static ranking and nonequilibrium failure behaviour in energetic molecular crystals. The target-data provenance has also been materially strengthened: the staged CL-20/HMX release is traceable to two named upstream DeepMD-format packages, and within the author team, including Dongping Chen as both a coauthor here and an author on the PCCP 2024 CL-20/HMX paper, the packaged subset is confirmed to follow that published sampling lineage with retained scale factors 0.96, 1.00, and 1.04 and retained temperatures 300, 500, 1000, 2000, 3000, and 4000 K, with retained systems that can be matched back to specific temperature/scale conditions by frame order after conversion. The final subset was not relabeled after receipt; instead, periodic structures with any cell edge below 10 Å were excluded under the collaboration's benchmark-quality rule. Basic labeling settings are also now known within the collaboration: CP2K, PBE, GTH, DZVP-MOLOPT, Grimme D3, and auxiliary plane-wave cutoffs of 60 Ry and 400 Ry. The remaining limitation is metadata completeness.
+
+This manuscript is original, has not been published previously, and is not under consideration elsewhere.
+
+Sincerely,
+
+Xiaohua Liu
+State Key Laboratory of Precision Blasting, Jianghan University
+Corresponding author: xiaohualiu@jhun.edu.cn

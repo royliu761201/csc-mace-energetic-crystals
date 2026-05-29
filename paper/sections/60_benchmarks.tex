@@ -1,0 +1,36 @@
+\subsection{Benchmark design and baselines}
+\label{sec:benchmarks}
+
+To test whether explicit self-consistency is genuinely needed, CSC-MACE is compared against increasingly informative alternatives rather than against a single short-range baseline:
+\begin{itemize}
+    \item \textbf{Short-range MACE:} a local equivariant potential with no explicit electrostatic response \cite{batatia2022mace,kovacs2023mace};
+    \item \textbf{Fixed-charge MACE:} a local model augmented with static charges and a simple Coulomb term;
+    \item \textbf{Static-QEq augmentation:} a QEq model without environment-dependent parameter prediction \cite{rappe1991charge}; and
+    \item \textbf{CSC-MACE:} the full self-consistent, feature-parameterized charge-response model.
+\end{itemize}
+
+The benchmark ladder is designed to answer one question in stages: is a short-range equivariant model sufficient, does a simpler charge-aware correction already recover most of the gain, and if not, what does explicit self-consistency add on the chemically decisive target? The four tiers serve distinct roles:
+\begin{itemize}
+    \item \textbf{Proxy sanity benchmark (MD17-style subset):} used only to verify that charge-aware variants can be compared reproducibly under non-trivial conditions. It is not chemically aligned with the energetic-material regime and is not used for headline claims.
+    \item \textbf{Public reference system (OpenREACT RTP subset):} a labeled CHON dataset with $128$ frames, large enough to expose ranking changes, seed sensitivity, and force--energy tradeoffs on public data.
+    \item \textbf{Public surrogate systems (Transition1x and SPICE):} two force-labeled public systems that are chemically more informative than OpenREACT and already support both static and dynamical evaluation.
+    \item \textbf{Final energetic-material benchmark (CL-20/HMX molecular-crystal data):} the chemically decisive target spanning equilibrium, compression, and shock-motivated nonequilibrium states.
+\end{itemize}
+
+This separation matters because each tier answers a different failure-analysis question. The MD17-style proxy remains diagnostic only. OpenREACT asks whether self-consistency changes the balance between energy and force accuracy once a public CHON system is used. Transition1x and SPICE then test whether any charge-aware gain transfers across chemically distinct public manifolds and harsher dynamical protocols.
+
+Their heterogeneous outcomes already warn against a universal headline: Transition1x favours charge-aware families in static ranking but not in the harsher dynamical regime, whereas SPICE favours \texttt{short\_range} on static energy metrics while exposing frame-selective bond-network collapse in dynamics. This pattern is consistent with broader experience in atomistic learning, where transfer across chemically distinct datasets, observables, and trajectory protocols remains a central challenge \cite{musil2021physics,artrith2021machine,fu2023forces,goedecker2023perspective,chen2024universal,jacobs2025practical,ko2025dataefficient}.
+
+It also echoes the energetic-material literature, in which reactive force fields and shock simulations already showed observable-dependent tradeoffs between chemical fidelity and dynamical robustness \cite{van2001reaxff,bolton2008molecular,menikoff2016shock}. The final energetic-material benchmark is therefore required not just to claim realism, but to decide whether explicit self-consistency corrects a real local-MLIP failure mode in the chemically relevant regime, or merely redistributes error across observables.
+
+Evaluation is separated into four axes:
+\begin{enumerate}
+    \item static accuracy on energies, forces, and stresses;
+    \item regime-aware accuracy across ambient, compressed, and shock-driven states;
+    \item trajectory-level validity under NVE or shock simulation protocols; and
+    \item mechanism-oriented ablations that isolate the effect of self-consistency.
+\end{enumerate}
+
+The baseline ladder therefore carries methodological meaning rather than serving as a generic ablation checklist. A short-range baseline tests whether an apparent gain can be explained without explicit electrostatics. The fixed-charge and static-QEq references test whether a simpler charge-aware correction already captures most of the improvement without the optimization burden of a self-consistent loop.
+
+The full self-consistent branch becomes scientifically informative only if it either outperforms those simpler references on the relevant observables or exposes a physically interpretable stability boundary. In that sense, the present benchmark design follows recent recommendations to separate interpolation accuracy, transfer behaviour, and trajectory validity rather than compressing them into a single scalar ranking \cite{deringer2021gaussian,goedecker2023perspective,fu2023forces,chen2024universal,huang2025cross}.

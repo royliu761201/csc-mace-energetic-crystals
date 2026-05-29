@@ -1,0 +1,16 @@
+Final upload package for npj Computational Materials
+
+Files included:
+- csc_mace.pdf
+- cover_letter_npjsubmission.pdf
+- cover_letter_npjsubmission.md
+- cover_letter_npjsubmission_short.txt
+- cl20_hmx_target_data_provenance_note.md
+- cl20_hmx_target_labeling_provenance_note.md
+- cl20_hmx_benchmark_boundary_table.md
+- cl20_hmx_target_split_upgrade_note.md
+- cl20_hmx_split_v3_note.md
+- cl20_hmx_split_v4_note.md
+- cl20_hmx_target_qeq_diagnostics_summary.md
+- cl20_hmx_qeq_failure_bridge.md
+- cl20_hmx_failure_window_summary.md

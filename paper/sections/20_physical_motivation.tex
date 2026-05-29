@@ -1,0 +1,20 @@
+\section{Physical Motivation and Problem Definition}
+\label{sec:motivation}
+
+Energetic molecular crystals under shock provide a particularly stringent test bed for MLIPs because the relevant observables depend on more than local geometry. In CL-20/HMX and related systems, shock compression distorts intermolecular contacts, modifies local fields, and can trigger partial charge transfer before large-scale chemical decomposition is fully developed. A useful working hypothesis for this project is that the dominant modeling gap is \emph{configuration-dependent non-local electrostatic response} rather than short-range bonding alone.
+
+This perspective motivates two concrete questions:
+\begin{enumerate}
+    \item At what pressure, strain, or reaction-progress regime do finite-cutoff equivariant models begin to show systematic failure?
+    \item Can an explicit self-consistent charge response repair those failures in a way that improves not only energy and force accuracy but also shock observables and trajectory stability?
+\end{enumerate}
+
+This framing also clarifies what evidence the manuscript must eventually carry in order to support a strong materials-physics claim. In particular, the decisive analysis should include:
+\begin{itemize}
+    \item a regime-stratified comparison showing where short-range MACE errors rise sharply,
+    \item a toy or empirical argument for the identifiability limit of purely local descriptors under strong polarization,
+    \item representative configurations from equilibrium, compression, and reaction-zone states, and
+    \item a careful distinction between \emph{effective charge response} and literal reconstruction of a unique DFT charge partitioning.
+\end{itemize}
+
+Accordingly, we frame CSC-MACE as a targeted response to a materials-physics bottleneck. The central question is whether an explicit self-consistent electrostatic response is necessary for shock-driven energetic molecular crystals and, if so, how much additional physical fidelity it recovers relative to strong local and simpler charge-aware baselines. That framing matters for both novelty and interpretation: the relevant methodological increment is not merely that charges appear in the model, but that explicit self-consistency is isolated as a testable hypothesis on top of a strong equivariant backbone and a simpler static-charge reference.

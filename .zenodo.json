@@ -1,0 +1,22 @@
+{
+  "title": "Charge-self-consistent equivariant potentials for energetic molecular crystals: static gains and nonequilibrium limits",
+  "upload_type": "publication",
+  "publication_type": "article",
+  "description": "Submission archive containing manuscript source, compiled PDF, cover letter, and supporting benchmark/provenance notes for CSC-MACE energetic molecular crystal modeling.",
+  "creators": [
+    {"name": "Liu, Xiaohua", "affiliation": "State Key Laboratory of Precision Blasting, Jianghan University, Wuhan 430056, Hubei, China"},
+    {"name": "Chen, Dongping", "affiliation": "State Key Laboratory of Explosion Science and Safety Protection, Beijing Institute of Technology, Beijing 100081, China"},
+    {"name": "Zhang, Chengkai", "affiliation": "State Key Laboratory of Precision Blasting, Jianghan University, Wuhan 430056, Hubei, China"},
+    {"name": "Sang, Hongqian", "affiliation": "State Key Laboratory of Precision Blasting, Jianghan University, Wuhan 430056, Hubei, China"}
+  ],
+  "keywords": [
+    "energetic molecular crystals",
+    "machine-learned interatomic potentials",
+    "charge self-consistency",
+    "equivariant potentials",
+    "nonequilibrium dynamics",
+    "CL-20",
+    "HMX"
+  ],
+  "license": "cc-by-4.0"
+}

@@ -1,0 +1,66 @@
+\section{Methods}
+\label{sec:methods}
+
+\subsection{CSC-MACE architecture}
+
+CSC-MACE extends the MACE equivariant framework by incorporating a differentiable, environment-dependent charge-equilibration (QEq) module. The resulting model combines a short-range equivariant backbone with an explicit self-consistent electrostatic contribution inside one periodic total-energy model.
+
+\subsection{Methodological scope of the contribution}
+
+CSC-MACE contributes a targeted architectural increment together with a sharper validation result. Three choices are central.
+
+First, the same equivariant crystal-environment representation drives both the short-range energy and the diagonal charge-response parameters, so the electrostatic branch is conditioned on the backbone features rather than appended as an external descriptor. Second, the QEq solve is embedded inside one periodic total-energy model whose relaxed energy is differentiated consistently for energies, forces, and stresses, with charge neutrality enforced over the full simulation cell.
+
+Third, the benchmark design includes both a short-range baseline and a static-charge reference, so the fully self-consistent branch is only credited for effects that cannot already be explained by a simpler charge-aware correction.
+
+\subsection{Energy Decomposition}
+The total potential energy $\hat{E}_\theta$ of a system with positions $R = \{\mathbf{r}_i\}$ and nuclear charges $Z = \{Z_i\}$ is decomposed as
+\begin{equation}
+    \hat{E}_\theta(R, Z) = E_{\text{short}}(R, Z; \theta_{\text{short}}) + E_{\text{qeq}}(q^\star; R, Z, \theta_{\text{qeq}}),
+    \label{eq:total_energy}
+\end{equation}
+where $E_{\text{short}}$ is the equivariant short-range contribution and $E_{\text{qeq}}$ is the self-consistent electrostatic energy evaluated at the relaxed charges $q^\star$.
+
+\subsection{Equivariant Feature Extraction}
+The short-range component $E_{\text{short}}$ is modeled with a MACE-style equivariant message-passing network \cite{batatia2022mace}. Per-atom features $h_i^{(L)}$ are obtained through $L$ layers of equivariant message passing with higher-order body-order expansions. These features feed both the local-energy readout and the prediction of the diagonal QEq parameters.
+
+\subsection{Differentiable Charge Equilibration}
+To model charge redistribution, CSC-MACE predicts environment-dependent electronegativities $\chi_i$ and idempotent hardness values $J_{ii}$ from the learned features $h_i^{(L)}$:
+\begin{equation}
+    \chi_i = f_\chi\big(h_i^{(L)}\big), \quad J_{ii} = f_J\big(h_i^{(L)}\big).
+\end{equation}
+The off-diagonal electrostatic couplings $J_{ij}$ are represented by a screened Coulomb kernel:
+\begin{equation}
+    J_{ij} = \frac{\text{erf}(\alpha |\mathbf{r}_{ij}|)}{|\mathbf{r}_{ij}|}.
+\end{equation}
+The equilibrium charges $q^\star$ are found by minimizing the QEq functional $E_{\text{qeq}} = \sum_i \chi_i q_i + \frac{1}{2} \sum_{i,j} q_i J_{ij} q_j$ subject to the total-charge constraint $\sum_i q_i = Q_{\text{tot}}$. This leads to the constrained linear system:
+\begin{equation}
+    \begin{bmatrix}
+        \mathbf{J} & \mathbf{1} \\
+        \mathbf{1}^\top & 0
+    \end{bmatrix}
+    \begin{bmatrix}
+        q^\star \\
+        \lambda
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        -\boldsymbol{\chi} \\
+        Q_{\text{tot}}
+    \end{bmatrix},
+    \label{eq:linear_system}
+\end{equation}
+where $\lambda$ is a Lagrange multiplier. The solve is fully differentiable, allowing end-to-end training of the QEq parameters alongside the short-range backbone.
+
+In practice, the diagonal hardness channel is kept positive through a positivity-preserving activation with a small floor, the linear system is stabilized only by weak diagonal jitter when conditioning requires it, and charge neutrality is enforced over the full periodic simulation cell rather than per molecule. The same periodic geometry therefore enters both the short-range backbone and the screened Coulomb coupling, while forces and stresses are obtained by differentiating the fully relaxed total energy after the linear solve.
+
+As shown in Section \ref{sec:results_static}, the charge-aware branches remain numerically active on the final target while preserving neutrality residuals near machine precision.
+
+Two implementation choices are especially important for interpretation. First, the model predicts only the diagonal QEq terms from the equivariant representation, while the off-diagonal couplings remain an explicit screened electrostatic kernel. This keeps the non-local part of the solve physically structured rather than asking the network to learn an unconstrained dense interaction matrix. Second, the static-charge baseline used throughout the paper removes the self-consistent update while keeping the broader charge-aware decomposition in place, so improvements unique to CSC-MACE can be attributed specifically to self-consistency rather than merely to the presence of an electrostatic head.
+
+\subsection{Training Objective}
+The model is trained on energy, forces, and stresses using a multi-task weighted loss:
+\begin{equation}
+    \mathcal{L} = w_E \Delta E^2 + w_F \frac{1}{3N} \sum_i \|\Delta \mathbf{F}_i\|^2 + w_\sigma \|\Delta \boldsymbol{\sigma}\|^2 + w_q \frac{1}{N} \sum_i \Delta q_i^2,
+\end{equation}
+where $w_q$ is applied only when auxiliary partial charges are available. Forces and stresses are obtained through automatic differentiation of the total energy $\hat{E}_\theta$ with respect to positions and cell strain, respectively.

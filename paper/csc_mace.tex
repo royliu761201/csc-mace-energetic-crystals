@@ -1,0 +1,81 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage[hypertexnames=false,hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[square,numbers,sort&compress]{natbib}
+\usepackage{titlesec}
+\usepackage[capitalize]{cleveref}
+
+\title{Charge-self-consistent equivariant potentials\\ for energetic molecular crystals: static gains and nonequilibrium limits}
+
+\author{%
+  Xiaohua Liu$^{a}$\thanks{Corresponding author: \texttt{xiaohualiu@jhun.edu.cn}}
+  \and
+  Dongping Chen$^{b}$
+  \and
+  Chengkai Zhang$^{a}$
+  \and
+  Hongqian Sang$^{a}$ \\
+  $^{a}$\parbox{0.42\textwidth}{\centering State Key Laboratory of Precision Blasting,\\ Jianghan University, Wuhan 430056, Hubei, China}
+  \hfill
+  $^{b}$\parbox{0.42\textwidth}{\centering State Key Laboratory of Explosion Science and Safety Protection,\\ Beijing Institute of Technology, Beijing 100081, China} \\
+}
+
+\date{}
+
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{0.35em}
+\linespread{1.05}
+\setlength{\bibsep}{2pt}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+
+\hbadness=10000
+\vbadness=10000
+\hfuzz=30pt
+\vfuzz=20pt
+\emergencystretch=2em
+
+\begin{document}
+
+\maketitle
+
+\input{sections/00_abstract}
+\input{sections/10_introduction}
+\input{sections/40_framework}
+\input{sections/50_dataset_protocol}
+\input{sections/60_benchmarks}
+\input{sections/70_results_static}
+\input{sections/80_results_dynamics}
+\input{sections/90_ablation_limitations}
+
+\section*{Data availability}
+The benchmark manifests, split definitions, cached analysis artifacts, figure-generation outputs, and target-benchmark provenance notes used in this study are included in the reproducibility package associated with this manuscript. The final CL-20/HMX benchmark file used here is traceable to two named upstream DeepMD-format packages recovered in the local workspace snapshot, as documented in the target-data provenance note. Because the current packaged release does not yet include a reviewer-complete upstream metadata record, access to the underlying staged arrays and to any later enriched metadata release should be coordinated through the corresponding author and the data-owning collaboration.
+
+\section*{Code availability}
+All training, evaluation, charge-equilibration, and rollout-analysis code required to reproduce the reported CSC-MACE results is included in the OpenClaw-based project repository associated with this manuscript. A manuscript-facing reviewer package containing the scripts, cached summaries, and plotting utilities used for the submitted figures and tables is available from the corresponding author upon reasonable request.
+
+\section*{Author contributions}
+Xiaohua Liu conceived the study, performed the model development and benchmark analysis, and drafted the manuscript. Dongping Chen contributed the CL-20/HMX data lineage clarification, target-benchmark curation guidance, and manuscript revision. Chengkai Zhang contributed to manuscript revision and benchmark discussion. Hongqian Sang contributed to manuscript revision and benchmark discussion. All authors reviewed and approved the manuscript.
+
+\section*{Competing interests}
+The authors declare no competing interests.
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+title: "Charge-self-consistent equivariant potentials for energetic molecular crystals: static gains and nonequilibrium limits"
+message: "If you use this archive, please cite the manuscript and archive record."
+type: article
+authors:
+  - family-names: Liu
+    given-names: Xiaohua
+    affiliation: "State Key Laboratory of Precision Blasting, Jianghan University, Wuhan 430056, Hubei, China"
+    email: xiaohualiu@jhun.edu.cn
+  - family-names: Chen
+    given-names: Dongping
+    affiliation: "State Key Laboratory of Explosion Science and Safety Protection, Beijing Institute of Technology, Beijing 100081, China"
+  - family-names: Zhang
+    given-names: Chengkai
+    affiliation: "State Key Laboratory of Precision Blasting, Jianghan University, Wuhan 430056, Hubei, China"
+  - family-names: Sang
+    given-names: Hongqian
+    affiliation: "State Key Laboratory of Precision Blasting, Jianghan University, Wuhan 430056, Hubei, China"

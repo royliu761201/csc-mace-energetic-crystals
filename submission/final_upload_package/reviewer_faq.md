@@ -1,0 +1,63 @@
+# Reviewer FAQ
+
+## 1. Why does the final CL-20/HMX benchmark not produce a clear dynamical win if the static hierarchy is favorable?
+
+Because the real target gives a split answer. The CL-20/HMX static multiseed benchmark clearly favors the charge-aware families on energy, with the self-consistent branch best overall. The nonequilibrium CL-20/HMX rollouts, however, remain dominated by frame-dependent degradation rather than a reproducible family-level separation. In the focused final-target probe, the mean spread across frames is about eight times larger than the family spread for the first integrity-crossing step and about one hundred eighty-four times larger for the first drift-threshold step. The manuscript treats that tension directly instead of collapsing it into a single headline.
+
+## 2. Why should the public surrogate systems still matter now that CL-20/HMX is included?
+
+They are not treated as replacements for the final energetic-material target. Instead, they determine which aspects of the charge-aware effect are stable across public chemistry and which are already heterogeneous before the real target is considered. That context makes the CL-20/HMX result more informative than it would be in isolation.
+
+## 3. The static and dynamical conclusions do not align. Is that a weakness?
+
+It is a central scientific result. The manuscript shows that static ranking and nonequilibrium stability need not order the model families in the same way. This is exactly why trajectory-level observables, threshold crossing, bond-network rearrangement, molecular integrity, and key-bond survival are analyzed separately rather than collapsed into one ranking.
+
+## 4. Why is the self-consistent branch not uniformly better than the simpler static-charge model?
+
+The paper treats that outcome directly. Explicit self-consistency is physically active and sometimes beneficial, but its value depends on which observable is being optimized and on the chemical manifold being sampled.
+
+## 5. What is the main take-home message?
+
+Explicit electrostatic response matters, but its effect is not universal. On the real CL-20/HMX benchmark it improves the static energy hierarchy, yet under the present nonequilibrium protocols it has not yielded a corresponding family-level dynamical separation. The paper is therefore about both a genuine gain and a clearly defined stabilization boundary.
+
+## 5a. Did the new fragile-frame suite reveal any positive dynamic signal at all?
+
+Yes. The denser CL-20/HMX fragile-window analysis shows that train-matched self-consistency is not consistently better on the earliest short-bond event. The positive signal instead reorganizes around a narrow endpoint-survival window on frames `64–72`. On frame `64`, train-matched self-consistency improves final molecular integrity relative to `static_charge` by about `+0.083`, and on frame `72` it improves final molecular integrity by about `+0.058`, delays the first integrity crossing by about `195` steps, and slightly improves final nitro survival. Frame `56` remains unfavorable. The result therefore supports a narrow endpoint-survival window, not a full dynamic family-level hierarchy.
+
+## 6. Why is this suitable for a materials journal rather than a machine-learning venue?
+
+Because the core claim is about a materials failure mode in shock-driven molecular crystals and about how electrostatic modeling changes static ranking, fragment integrity, and trajectory degradation. The machine-learning method is in service of a materials-physics question.
+
+## 7. What is the current provenance and split-policy limitation of the CL-20/HMX target?
+
+The current CL-20/HMX release is strong enough to support a real energetic-material benchmark, but it is not yet a fully annotated shock database. The staged subset contains `14814` labeled frames (`4875` CL-20 and `9939` HMX), all tagged as `decomposition`, with force labels present but pressure and temperature metadata absent as explicit per-frame fields in the staged file. We can now identify the staged subset more concretely as derived from two named upstream DeepMD packages recovered in the local workspace snapshot: `1-CL-20-Total` for CL-20 and `2-HMX-trainset3` for HMX. Within the author team, including Dongping Chen as both a coauthor of the present manuscript and an author on the PCCP 2024 CL-20/HMX paper, the staged subset is confirmed to follow that same published sampling lineage, with retained configurations at scale factors `0.96`, `1.00`, and `1.04` and temperatures `300`, `500`, `1000`, `2000`, `3000`, and `4000 K` for each scale point. Because the source arrays were written in that fixed order, the retained subset can be mapped back to concrete temperature/scale conditions by frame order after conversion. The final subset was not relabeled after receipt. Instead, configurations with any cell edge below `1 nm` (`10 Å`) were filtered out according to the BIT collaboration team's empirical quality-control rule for this benchmark; roughly half of the original CL-20 payload and about one sixth of the HMX payload were removed, with the HMX removals concentrated in the smallest-cell `300 K` subset. In addition, the available `trajectory_id` field is effectively frame-unique rather than trajectory-unique, so the present benchmark uses a deterministic frame-index split rather than claiming trajectory-level leakage prevention. We treat the remaining metadata limitation explicitly in the manuscript and as a priority item for the next data release.
+
+## 7a. Did Dongping actually provide the CL-20/HMX data?
+
+Yes, in the practical sense that matters for the benchmark itself: the current workspace contains the real DeepMD-format arrays staged within the collaboration, and those roots can now be identified more concretely as `1-CL-20-Total` for CL-20 and `2-HMX-trainset3` for HMX. What the collaboration therefore retains is the data payload needed to build the benchmark: periodic cells, coordinates, total energies, per-atom forces, atom-type maps, and the package-to-extxyz conversion path. Author-team confirmation, again including Dongping Chen as both a coauthor here and an author of the PCCP 2024 CL-20/HMX paper, indicates that the packaged subset follows that published sampling lineage, that retained systems can be matched back to specific temperature/scale conditions, and that it was not relabeled after receipt; the final curation step was instead the removal of sub-`1 nm` cell-edge structures under the collaboration's benchmark-quality rule.
+
+What is still incomplete is not the existence of the data arrays, but the existence of a reviewer-complete method record packaged alongside them. In other words, `the data were given, and the subset-level temperature / scale sampling is now much clearer, but the full reproducibility metadata were not fully preserved in the current workspace snapshot.` The remaining gap concerns items such as the fully archived shock/compression generation route and the missing thermodynamic trajectory metadata. The basic labeling settings are now at least known: CP2K with `PBE`, `GTH` pseudopotentials, `DZVP-MOLOPT` basis functions, Grimme `D3` dispersion, and auxiliary plane-wave cutoffs of `60 Ry` and `400 Ry`.
+
+## 8. If the target metadata are incomplete, why is the benchmark still useful?
+
+Because the main question addressed here is not a pressure-resolved equation-of-state analysis; it is whether charge-aware modeling changes static ranking and nonequilibrium failure structure on real energetic-material configurations. The current release is already sufficient for that comparison because it supplies the decisive ingredients: real CL-20/HMX structures, total energies, and per-atom forces. What it cannot yet support is a final thermodynamic decomposition by pressure, temperature, or multi-frame trajectory history, and the manuscript now states that boundary directly.
+
+## 9. What is the current status of the CL-20/HMX split-by-material static table?
+
+We now have both layers of evidence. First, the six-variant GPU rerun recovered the material-specific held-out table under the original deterministic contiguous split, and that table should indeed be described accurately as an HMX-only held-out slice because CL-20 falls entirely in the training portion of that frame ordering. Second, and more importantly, a cleaner material-balanced CL-20/HMX split-v2 rerun has now been completed on GPU. On that jointly held-out material mix, the same static hierarchy is preserved rather than overturned: `self_consistent` remains best on energy MAE (`22704.77`), `static_charge` remains second (`23026.01`), and `short_range` remains weakest (`23557.23`), while force MAE stays effectively tied (`~1.91821`). The manuscript therefore no longer depends solely on the original HMX-only contiguous slice for its strongest static claim.
+
+## 9a. What does the newer split-v3 rerun add beyond split-v2?
+
+Split-v3 pushes the same static claim through a stronger held-out view. Instead of only rebalancing materials, it holds out order-recovered `scale x temperature` blocks inferred from the author-team-confirmed within-material write order. On that cleaner block-holdout rerun, the same ordering still survives: `self_consistent` reaches energy MAE `22611.09`, `static_charge` reaches `22913.15`, and `short_range` reaches `23421.07`, while force MAE remains effectively tied (`~1.69563`). We still describe this as an order-recovered block holdout rather than a trajectory-clean split, but it further reduces the risk that the final static result is a peculiarity of the original HMX-only contiguous slice.
+
+## 10. How do you separate benchmark limitations from the actual scientific claim?
+
+With a dedicated benchmark-boundary table rather than by hiding the limitation in prose. The manuscript package now includes a reviewer-facing summary that separates what is already supported by the current CL-20/HMX release from what remains out of scope. In particular, force labels and material identity are present and support the static benchmark plus rollout-to-structure comparison, while pressure histories, temperature histories, reusable trajectory grouping, reviewer-complete DFT settings, and a documented shock-state generation route remain incomplete. This lets us defend the actual claim without overstating what the dataset can do.
+
+## 11. If QEq is active, why does the dynamical hierarchy remain weak?
+
+Because the charge-aware branches are active without becoming the dominant source of nonequilibrium variance. The new QEq-versus-failure bridge table and frame-versus-family dominance summary make that explicit. In the CL-20/HMX static benchmark, `self_consistent` and `static_charge` both show non-zero charge and field response. But in the frame-indexed key-bond survival probe, the final molecular integrity and retained N-O values collapse by starting frame rather than by model family: frame 32 is weak for all three families, frame 64 is weaker still, and frame 160 is stronger for all three. Quantitatively, the within-frame family spread is zero for the final molecular-integrity and retained-bond endpoints, while the within-family frame spread remains large. The multiseed frame-160 nitro-focus rerun reaches the same conclusion at higher resolution. That is why the manuscript frames the result as a boundary on dynamical transfer, not as evidence that QEq is inert.
+
+## 12. What is currently known about computational overhead across the main families?
+
+The current package now contains both rollout-side and static-suite cost evidence. On the matched frame-160 rollout probe, `short_range`, `static_charge`, and `self_consistent` all cross the early drift threshold at step `1056`, but their total rollout costs increase from about `20 s` to `42 s` to `112 s`. The adaptive-gated branch then rises further to about `190 s` while only returning to the `1067` plateau. In addition, the six-variant GPU rerun of the static multiseed suite gives a practical family-level wall-time proxy from artifact timestamps on the same `NVIDIA L20` environment, with mean total proxies of about `54 s` for `short_range`, `364 s` for `static_charge`, and `937 s` for `self_consistent`. The paper is therefore no longer silent about cost: both the static target suite and the fragile-frame rollout probe support the same ordering, `short_range < static_charge < self_consistent`, while the adaptive branch is costlier still. What remains unavailable is a more formal unified benchmark of memory footprint, kernel-level attribution, and training-throughput normalization under one controlled profiling harness.
